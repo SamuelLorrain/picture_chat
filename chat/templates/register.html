@@ -1,0 +1,24 @@
+<html>
+    <head>
+        <meta charset="utf8"/>
+    </head>
+    <body>
+        {% for field in form %}
+            {% if field.errors %}
+            <ul>
+                {% for error in field.errors %}
+                <li style="color:red;">
+                    {{ error|escape }}
+                </li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        {% endfor %}
+        <form method="POST">
+            {% csrf_token %}
+            {{ form }}
+            <br/>
+            <input type="submit" value="Submit">
+        </form>
+    </body>
+</html>
