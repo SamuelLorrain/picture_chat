@@ -1,8 +1,6 @@
 <div class="message-viewer" bind:this={messageViewer}>
-    <div class="text-space" contenteditable bind:this={textSpace}>
-    </div>
-    <canvas bind:this={canvas}>
-    </canvas>
+    <div class="text-space" bind:this={textSpace}></div>
+    <canvas bind:this={canvas}></canvas>
 </div>
 
 <script>
@@ -13,7 +11,7 @@
     export let image;
     const canvasSize = {
         width: 600,
-        height: 300
+        height: 200
     }
     const paddingSize=10;
     $: imgDataUrl = image;
@@ -28,11 +26,11 @@
 
         canvas.width = canvasSize.width;
         canvas.height = canvasSize.height;
+        canvas.style.top = -canvasSize.y+'px';
+
+        canvas.style.position = 'relative';
         textSpace.style.width = canvasSize.width+'px';
         textSpace.style.height = canvasSize.height+'px';
-        textSpace.style.top = -canvasSize.y+'px';
-        textSpace.style.left = -canvasSize.x+'px';
-        textSpace.style.position = 'absolute';
         textSpace.style.padding=paddingSize+'px';
 
         // create image
@@ -52,6 +50,15 @@
 <style>
     .message-viewer {
         width: 600px;
-        height: 300px;
+        height: 200px;
+    }
+
+    canvas {
+        top:-200px;
+        position:relative;
+    }
+    .text-space {
+        position:relative;
+        z-index:10;
     }
 </style>

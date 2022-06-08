@@ -1,7 +1,9 @@
 <div>
-    {#each messages as message}
-        <MessageViewer {...message} :key={message.text+message.image}/>
-    {/each}
+    <div class="container">
+        {#each messages as message}
+            <MessageViewer {...message} :key={message.text+message.image}/>
+        {/each}
+    </div>
 </div>
 
 <script>
@@ -9,3 +11,10 @@
 
     export let messages;
 </script>
+
+<style>
+    .container {
+        max-height: 45vh;
+        overflow-x: scroll;
+    }
+</style>

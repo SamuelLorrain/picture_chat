@@ -1,7 +1,11 @@
 <main>
-    <MessageList {messages}/>
-    <Editor on:send={send}/>
-    <button on:click={get}>GET</button>
+    <div class="container">
+        <div>
+            <MessageList {messages}/>
+            <Editor on:send={send}/>
+            <button on:click={get}>GET</button>
+        </div>
+    </div>
 </main>
 <script>
     import MessageList from './MessageList.svelte';
@@ -26,11 +30,18 @@
         })
         .then((x) => x.json())
         .then((jsonData) => {
-            console.log(jsonData);
             messages = jsonData.map((x) => x.fields);
-            console.log(messages);
         })
         .catch((x) => console.error(x));
     }
 
 </script>
+
+<style>
+    .container {
+        display: flex;
+        justify-content:center;
+        margin-top:10vh;
+        margin-bottom:10vh;
+    }
+</style>
