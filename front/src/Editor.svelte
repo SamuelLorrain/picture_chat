@@ -25,19 +25,23 @@
         </label>
         <button on:click={popHistory}>pop</button>
         <button on:click={reset}>reset</button>
-        <button on:click={send}>send</button>
+        <button on:click={send} disabled={!hasData}>send</button>
     </div>
 </div>
 
 <script>
+    // TODO
+    // STORE HasData/HasDrawn in historyState
     import { onMount, createEventDispatcher } from 'svelte';
     import { EditorHistory } from './lib/editor.js';
 
-    let size = 1;
+    let size = 2;
     let drawing = false;
     let canvas;
     let textSpace;
     let color;
+    let hasData = false;
+    let hasDrawn = false;
     const canvasSize = {
         width: 600,
         height: 300
@@ -64,6 +68,9 @@
         textSpace.style.position = 'absolute';
         textSpace.style.padding=paddingSize+'px';
 
+        ctx.fillStyle = '#fff';
+        ctx.fillRect(0,0,canvasSize.width, canvasSize.height);
+
         window.addEventListener('pointermove', function(e) {
             const canvasPosition = canvas.getBoundingClientRect();
             cursor.x = e.clientX - canvasPosition.x - 5;
@@ -71,6 +78,7 @@
             if (drawing) {
                 ctx.fillStyle = color ?? '#000';
                 ctx.fillRect(cursor.x, cursor.y, size*10, size*10);
+                hasData = true;
             }
         });
         window.addEventListener('pointerup', function(e) {
@@ -81,6 +89,7 @@
         textSpace.addEventListener('pointerdown', function(e) {
             storeHistory();
             drawing = true;
+            hasDrawn = true;
             canvas.style.cursor = "crosshair";
             textSpace.style.cursor = "crosshair";
         });
@@ -88,6 +97,7 @@
             if(e.data == ' ' || e.inputType == 'insertParagraph') {
                 storeHistory();
             }
+            hasData = true;
         })
     });
 
@@ -110,18 +120,27 @@
     function reset() {
         storeHistory();
         textSpace.innerHTML = '';
-        ctx.fillStyle = color;
-        ctx.fillStyle = '#ffffff';
+        ctx.fillStyle = '#fff';
         ctx.fillRect(0,0, canvasSize.width, canvasSize.height);
+        hasData = false;
     }
 
     function send() {
+        if (!hasData) {
+            return;
+        }
+
+        let canvasData = null;
+        if (hasDrawn) {
+            canvasData = canvas.toDataURL('image/jpeg')
+        }
         // NOT GOOD ENOUGH IF
         // THE MESSAGE FAIL NO POSSIBILITY
         // TO HANDLE
+        console.log(canvasData);
         dispatch('send', {
             text: textSpace.innerHTML,
-            canvas: canvas.toDataURL('image/jpeg'),
+            canvas: canvasData
         });
         reset();
     }
