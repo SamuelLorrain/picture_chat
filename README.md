@@ -7,6 +7,5 @@ A chat from the old days
 
 - base template
 - theming
-- begin frontend
-- organizing SPA (svelte ?)
 - login system with SPA (Auth0 ?)
+- websockets/event servers to fetch new data

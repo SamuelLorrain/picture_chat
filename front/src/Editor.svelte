@@ -69,7 +69,6 @@
             cursor.x = e.clientX - canvasPosition.x - 5;
             cursor.y = e.clientY - canvasPosition.y - 5;
             if (drawing) {
-                console.log(cursor.x, cursor.y);
                 ctx.fillStyle = color ?? '#000';
                 ctx.fillRect(cursor.x, cursor.y, size*10, size*10);
             }
@@ -122,12 +121,7 @@
         // TO HANDLE
         dispatch('send', {
             text: textSpace.innerHTML,
-            canvas: ctx.getImageData(
-                0,
-                0,
-                canvasSize.width,
-                canvasSize.height
-            ),
+            canvas: canvas.toDataURL('image/jpeg'),
         });
         reset();
     }

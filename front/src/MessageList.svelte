@@ -1,6 +1,6 @@
 <div>
     {#each messages as message}
-        <MessageViewer {...message} :key={message.text+message.date}/>
+        <MessageViewer {...message} :key={message.text+message.image}/>
     {/each}
 </div>
 

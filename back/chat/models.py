@@ -18,6 +18,6 @@ class Message(models.Model):
     user = models.ForeignKey(to=User, on_delete=models.CASCADE)
     room = models.ForeignKey(to=Room, on_delete=models.CASCADE)
     text = models.TextField()
-    image = models.ImageField(null=True, blank=True)
+    image = models.TextField(null=True, blank=True)
     # created_at = models.DateTimeField(default=datetime.now())
 
