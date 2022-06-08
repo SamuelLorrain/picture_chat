@@ -6,7 +6,7 @@
     import MessageList from './MessageList.svelte';
     import Editor from './Editor.svelte';
 
-    let messages;
+    let messages = [
         {
             text: 'test',
             date: Date.now(),
