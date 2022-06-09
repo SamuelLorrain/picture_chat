@@ -15,8 +15,11 @@
 
     async function send(e) {
         try {
-            await fetch('http://localhost:8000/message/', {
+            await fetch('http://localhost:8000/messages/', {
                 method:'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
                 body: JSON.stringify(e.detail),
             })
         } catch(error) {
@@ -25,12 +28,12 @@
     }
 
     function get() {
-        fetch('http://localhost:8000/message/', {
+        fetch('http://localhost:8000/messages/', {
             method: 'GET'
         })
         .then((x) => x.json())
         .then((jsonData) => {
-            messages = jsonData.map((x) => x.fields);
+            messages = jsonData.map((x) => x);
         })
         .catch((x) => console.error(x));
     }

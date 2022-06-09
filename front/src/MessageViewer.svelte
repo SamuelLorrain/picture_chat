@@ -1,5 +1,7 @@
 <div class="message-viewer" bind:this={messageViewer}>
-    <div class="text-space" bind:this={textSpace}></div>
+    <div class="text-space" bind:this={textSpace}>
+        <div></div>
+    </div>
     <canvas bind:this={canvas}></canvas>
 </div>
 
@@ -7,7 +9,7 @@
     import { onMount } from 'svelte';
 
     export let text;
-    export let date;
+    export let created_at;
     export let image;
     const canvasSize = {
         width: 600,
@@ -41,7 +43,7 @@
         img.src = imgDataUrl;
 
         // create text:
-        textSpace.innerHTML = text;
+        textSpace.innerHTML = text + created_at;
     })
 
 

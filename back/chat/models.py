@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from datetime import datetime
+from django.utils import timezone
 
 # Create your models here.
 class Room(models.Model):
@@ -8,16 +8,14 @@ class Room(models.Model):
     admin = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name='admin')
     participants = models.ManyToManyField(to=User)
     name = models.CharField(max_length=250)
-    # created_at = models.DateTimeField(default=datetime.now())
+    created_at = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return self.name
-
 
 class Message(models.Model):
     user = models.ForeignKey(to=User, on_delete=models.CASCADE)
     room = models.ForeignKey(to=Room, on_delete=models.CASCADE)
     text = models.TextField()
     image = models.TextField(null=True, blank=True)
-    # created_at = models.DateTimeField(default=datetime.now())
-
+    created_at = models.DateTimeField(default=timezone.now)

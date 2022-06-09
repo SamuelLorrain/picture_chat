@@ -1,12 +1,24 @@
 from django.urls import path
 from . import views
 
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView
+)
+
 urlpatterns = [
-    path('', views.loginView, name="login"),
-    path('register/', views.register, name="register"),
-    path('room/', views.indexChatRoom, name="index"),
-    path('room/<int:pk>/', views.showChatRoom, name="show_room"),
-    path('room/<int:pk>/create/', views.createChatRoom, name="create_room"),
-    path('room/<int:pk>/message/', views.sendMessage, name="send_message"),
-    path('message/', views.sendMessageSimplified, name="send_message_simplified")
+    path('messages/', views.getMessages),
+
+
+    # authentication
+    path(
+        'tokens/',
+        TokenObtainPairView.as_view(),
+        name='token_obtain_pair'
+    ),
+    path(
+        'tokens/refresh/',
+        TokenRefreshView.as_view(),
+        name='token_refresh'
+    )
 ]

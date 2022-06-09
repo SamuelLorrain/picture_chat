@@ -137,7 +137,6 @@
         // NOT GOOD ENOUGH IF
         // THE MESSAGE FAIL NO POSSIBILITY
         // TO HANDLE
-        console.log(canvasData);
         dispatch('send', {
             text: textSpace.innerHTML,
             canvas: canvasData
