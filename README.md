@@ -8,4 +8,4 @@ A chat from the old days
 - base template
 - theming
 - login system with SPA (Auth0 ?)
-- websockets/event servers to fetch new data
+- Import image (and dither ?)

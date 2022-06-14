@@ -3,7 +3,6 @@
         <div>
             <MessageList {messages}/>
             <Editor on:send={send}/>
-            <button on:click={get}>GET</button>
         </div>
     </div>
 </main>
@@ -13,8 +12,8 @@
     import MessageList from './MessageList.svelte';
     import Editor from './Editor.svelte';
     import getToken from './lib/login.js'
-
     const navigate = useNavigate();
+    let messages = [];
     const url =  `ws://localhost:8000/ws/socket-server/`
     const chatSocket = new WebSocket(url);
 
@@ -24,29 +23,14 @@
         }
     });
 
-    let messages = [];
+    chatSocket.onmessage = function(e) {
+        const data = JSON.parse(e.data);
+        messages = data.map((x) => x.fields);
+    }
 
     function send(e) {
         chatSocket.send(JSON.stringify(e.detail));
     }
-
-    chatSocket.onmessage = function(e) {
-        const data = JSON.parse(e.data);
-        console.log(data);
-        messages = data.map((x) => x.fields);
-    }
-
-    function get() {
-        fetch('http://localhost:8000/messages/', {
-            method: 'GET'
-        })
-        .then((x) => x.json())
-        .then((jsonData) => {
-            messages = jsonData.map((x) => x);
-        })
-        .catch((x) => console.error(x));
-    }
-
 </script>
 
 <style>
