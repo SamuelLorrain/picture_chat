@@ -1,12 +1,18 @@
-from django.urls import path
+from django.urls import path, re_path
 from . import views
+from . import consumers
 
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView
 )
 
+websocket_urlpatterns = [
+    re_path(r'ws/socket-server/', consumers.ChatConsumer.as_asgi())
+]
+
 urlpatterns = [
+
     path('messages/', views.getMessages),
 
 

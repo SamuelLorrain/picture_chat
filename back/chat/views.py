@@ -30,3 +30,4 @@ def getMessages(request):
         )
 
         return Response(MessageSerializer(message))
+

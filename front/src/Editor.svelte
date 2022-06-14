@@ -2,7 +2,7 @@
     <div class="editor">
         <div class="text-space" contenteditable bind:this={textSpace}>
         </div>
-        <canvas bind:this={canvas}>
+        <canvas class="editor-canvas" bind:this={canvas}>
         </canvas>
     </div>
 
@@ -32,7 +32,7 @@
 <script>
     // TODO
     // STORE HasData/HasDrawn in historyState
-    import { onMount, createEventDispatcher } from 'svelte';
+    import { onMount, createEventDispatcher, onDestroy } from 'svelte';
     import { EditorHistory } from './lib/editor.js';
 
     let size = 2;
@@ -55,6 +55,38 @@
     const dispatch = createEventDispatcher();
     let ctx;
 
+    const pointerMoveEvent = function(e) {
+        const canvasPosition = canvas.getBoundingClientRect();
+        cursor.x = e.clientX - canvasPosition.x - 5;
+        cursor.y = e.clientY - canvasPosition.y - 5;
+        if (drawing) {
+            ctx.fillStyle = color ?? '#000';
+            ctx.fillRect(cursor.x, cursor.y, size*10, size*10);
+            hasData = true;
+        }
+    };
+
+    const pointerUpEvent = function(e) {
+            drawing = false;
+            canvas.style.cursor = "default";
+            textSpace.style.cursor = "default";
+    };
+
+    const pointerDownEvent = function(e) {
+            storeHistory();
+            drawing = true;
+            hasDrawn = true;
+            canvas.style.cursor = "crosshair";
+            textSpace.style.cursor = "crosshair";
+    };
+
+    const inputEvent = function(e) {
+        if(e.data == ' ' || e.inputType == 'insertParagraph') {
+            storeHistory();
+        }
+        hasData = true;
+    }
+
     onMount(() => {
         ctx = canvas.getContext('2d');
         const canvasPosition = canvas.getBoundingClientRect();
@@ -71,34 +103,18 @@
         ctx.fillStyle = '#fff';
         ctx.fillRect(0,0,canvasSize.width, canvasSize.height);
 
-        window.addEventListener('pointermove', function(e) {
-            const canvasPosition = canvas.getBoundingClientRect();
-            cursor.x = e.clientX - canvasPosition.x - 5;
-            cursor.y = e.clientY - canvasPosition.y - 5;
-            if (drawing) {
-                ctx.fillStyle = color ?? '#000';
-                ctx.fillRect(cursor.x, cursor.y, size*10, size*10);
-                hasData = true;
-            }
-        });
-        window.addEventListener('pointerup', function(e) {
-            drawing = false;
-            canvas.style.cursor = "default";
-            textSpace.style.cursor = "default";
-        });
-        textSpace.addEventListener('pointerdown', function(e) {
-            storeHistory();
-            drawing = true;
-            hasDrawn = true;
-            canvas.style.cursor = "crosshair";
-            textSpace.style.cursor = "crosshair";
-        });
-        textSpace.addEventListener('input', function(e) {
-            if(e.data == ' ' || e.inputType == 'insertParagraph') {
-                storeHistory();
-            }
-            hasData = true;
-        })
+        window.addEventListener('pointermove', pointerMoveEvent);
+        window.addEventListener('pointerup', pointerUpEvent);
+        textSpace.addEventListener('pointerdown', pointerDownEvent);
+        textSpace.addEventListener('input', inputEvent)
+    });
+
+    onDestroy(() => {
+        window.removeEventListener('pointermove', pointerMoveEvent);
+        window.removeEventListener('pointerup', pointerUpEvent);
+        textSpace.removeEventListener('pointerdown', pointerDownEvent);
+        textSpace.removeEventListener('input', inputEvent)
+
     });
 
     function storeHistory() {

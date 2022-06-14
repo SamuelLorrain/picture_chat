@@ -8,23 +8,32 @@
     </div>
 </main>
 <script>
+    import { onMount } from 'svelte';
+    import { useNavigate } from 'svelte-navigator';
     import MessageList from './MessageList.svelte';
     import Editor from './Editor.svelte';
+    import getToken from './lib/login.js'
+
+    const navigate = useNavigate();
+    const url =  `ws://localhost:8000/ws/socket-server/`
+    const chatSocket = new WebSocket(url);
+
+    onMount(() => {
+        if(!getToken()) {
+            navigate('/', {replace:true});
+        }
+    });
 
     let messages = [];
 
-    async function send(e) {
-        try {
-            await fetch('http://localhost:8000/messages/', {
-                method:'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(e.detail),
-            })
-        } catch(error) {
-            console.log(error);
-        }
+    function send(e) {
+        chatSocket.send(JSON.stringify(e.detail));
+    }
+
+    chatSocket.onmessage = function(e) {
+        const data = JSON.parse(e.data);
+        console.log(data);
+        messages = data.map((x) => x.fields);
     }
 
     function get() {
