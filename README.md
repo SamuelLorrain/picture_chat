@@ -2,10 +2,18 @@
 
 A chat from the old days
 
+## INSTALL
+
+```
+poetry install
+cd front
+npm install
+cd ..
+sh ./run.sh
+```
 
 ## TODO
 
-- base template
-- theming
-- login system with SPA (Auth0 ?)
+- styling
+- login system
 - Import image (and dither ?)
