@@ -155,7 +155,8 @@
         // TO HANDLE
         dispatch('send', {
             text: textSpace.innerHTML,
-            canvas: canvasData
+            image: canvasData,
+            user_uuid: "fa7c57c2-f94d-41b0-85ad-e1143674eb65"
         });
         reset();
     }

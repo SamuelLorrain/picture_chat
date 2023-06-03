@@ -9,8 +9,9 @@
     import { onMount } from 'svelte';
 
     export let text;
-    export let created_at;
     export let image;
+    export let user_uuid;
+    export let datetime;
     const canvasSize = {
         width: 600,
         height: 200
@@ -43,7 +44,7 @@
         img.src = imgDataUrl;
 
         // create text:
-        textSpace.innerHTML = text + created_at;
+        textSpace.innerHTML = text;
     })
 
 
