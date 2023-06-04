@@ -6,14 +6,9 @@ A chat from the old days
 
 ```
 poetry install
+poetry run yoyo apply
 cd front
 npm install
 cd ..
 sh ./run.sh
 ```
-
-## TODO
-
-- styling
-- login system
-- Import image (and dither ?)

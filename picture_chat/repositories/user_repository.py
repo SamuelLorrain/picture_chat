@@ -1,5 +1,5 @@
 import os
-import json
+import sqlite3
 from typing import Optional
 from uuid import UUID
 from picture_chat.entities.user import User
@@ -7,11 +7,13 @@ from picture_chat.entities.user import User
 
 class UserRepository:
     def get_from_uuid(self, uuid: UUID) -> Optional[User]:
-        file_content = None
-        with open(f"{os.path.dirname(__file__)}/../data/users.json") as file:
-            file_content = json.load(file)
-
-        for i in file_content["users"]:
-            if i["uuid"] == str(uuid):
-                return User(uuid=UUID(i["uuid"]), name=i["name"])
-        return None
+        connection = sqlite3.connect(f"{os.path.dirname(__file__)}/../db.sqlite3")
+        cursor = connection.execute("""
+            SELECT uuid, name
+            FROM user
+            WHERE uuid = ?;
+        """, (str(uuid),))
+        user_data = cursor.fetchone()
+        if not user_data:
+            return None
+        return User(uuid=UUID(user_data[0]), name=user_data[1])

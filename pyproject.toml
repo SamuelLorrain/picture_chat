@@ -10,6 +10,7 @@ packages = [{include = "picture_chat"}]
 python = "^3.11"
 fastapi = "^0.95.2"
 uvicorn = {extras = ["standard"], version = "^0.22.0"}
+yoyo-migrations = "^8.2.0"
 
 
 [build-system]
