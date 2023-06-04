@@ -65,10 +65,6 @@
         canvas.height = canvasSize.height;
         textSpace.style.width = canvasSize.width + 'px';
         textSpace.style.height = canvasSize.height + 'px';
-        // textSpace.style.top = -canvasSize.y + 'px';
-        // textSpace.style.left = -canvasSize.x + 'px';
-        // textSpace.style.position = 'absolute';
-        // textSpace.style.padding = paddingSize + 'px';
 
         ctx.fillStyle = BACKGROUND_COLOR;
         ctx.fillRect(0,0,canvasSize.width, canvasSize.height);

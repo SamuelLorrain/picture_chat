@@ -2,6 +2,7 @@ from pydantic import BaseModel
 from datetime import datetime
 from uuid import UUID
 from picture_chat.entities.user import User
+from picture_chat.entities.room import Room
 
 
 class Message(BaseModel):
@@ -10,3 +11,4 @@ class Message(BaseModel):
     image: bytes
     datetime: datetime
     user: User
+    room: Room

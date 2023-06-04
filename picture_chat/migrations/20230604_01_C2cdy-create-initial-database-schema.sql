@@ -1,4 +1,5 @@
 -- Create initial database schema
+-- depends:
 
 CREATE TABLE user (
     uuid TEXT PRIMARY KEY UNIQUE NOT NULL,
