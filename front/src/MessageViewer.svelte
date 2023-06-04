@@ -1,7 +1,5 @@
 <div class="message-viewer" bind:this={messageViewer}>
-    <div class="text-space" bind:this={textSpace}>
-        <div></div>
-    </div>
+    <div class="message-viewer-text-space" bind:this={textSpace}></div>
     <canvas bind:this={canvas}></canvas>
 </div>
 
@@ -16,7 +14,6 @@
         width: 600,
         height: 200
     }
-    const paddingSize=10;
     $: imgDataUrl = image;
     let messageViewer;
     let canvas;
@@ -29,12 +26,6 @@
 
         canvas.width = canvasSize.width;
         canvas.height = canvasSize.height;
-        canvas.style.top = -canvasSize.y+'px';
-
-        canvas.style.position = 'relative';
-        textSpace.style.width = canvasSize.width+'px';
-        textSpace.style.height = canvasSize.height+'px';
-        textSpace.style.padding=paddingSize+'px';
 
         // create image
         const img = new Image();
@@ -49,19 +40,3 @@
 
 
 </script>
-
-<style>
-    .message-viewer {
-        width: 600px;
-        height: 200px;
-    }
-
-    canvas {
-        top:-200px;
-        position:relative;
-    }
-    .text-space {
-        position:relative;
-        z-index:10;
-    }
-</style>

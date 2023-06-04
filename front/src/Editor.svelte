@@ -1,58 +1,28 @@
-<div>
-    <div class="editor">
-        <div class="text-space" contenteditable bind:this={textSpace}>
-        </div>
-        <canvas class="editor-canvas" bind:this={canvas}>
-        </canvas>
-    </div>
-
-    <div class="tools">
-        <label>
-            <input type="radio" bind:group={size} name="size" value={1}/>
-            Small
-        </label>
-        <label>
-            <input type="radio" bind:group={size} name="size" value={2}/>
-            Medium
-        </label>
-        <label>
-            <input type="radio" bind:group={size} name="size" value={3}/>
-            Large
-        </label>
-        <label>
-            <input type="color" bind:value={color}/>
-            Color
-        </label>
-        <button on:click={popHistory}>pop</button>
-        <button on:click={reset}>reset</button>
-        <button on:click={send} disabled={!hasData}>send</button>
-    </div>
-</div>
-
 <script>
     // TODO
     // STORE HasData/HasDrawn in historyState
     import { onMount, createEventDispatcher, onDestroy } from 'svelte';
     import { EditorHistory } from './lib/editor.js';
 
-    let size = 2;
-    let drawing = false;
     let canvas;
     let textSpace;
     let color;
+    let size = 2;
+    let drawing = false;
     let hasData = false;
     let hasDrawn = false;
     const canvasSize = {
         width: 600,
         height: 200
     }
-    const paddingSize=10;
     const cursor = {
         x: null,
         y: null,
     }
     const editorHistory = new EditorHistory();
     const dispatch = createEventDispatcher();
+    const DEFAULT_COLOR = '#000';
+    const BACKGROUND_COLOR = '#fff';
     let ctx;
 
     const pointerMoveEvent = function(e) {
@@ -60,7 +30,7 @@
         cursor.x = e.clientX - canvasPosition.x - 5;
         cursor.y = e.clientY - canvasPosition.y - 5;
         if (drawing) {
-            ctx.fillStyle = color ?? '#000';
+            ctx.fillStyle = color ?? DEFAULT_COLOR;
             ctx.fillRect(cursor.x, cursor.y, size*10, size*10);
             hasData = true;
         }
@@ -93,14 +63,14 @@
 
         canvas.width = canvasSize.width;
         canvas.height = canvasSize.height;
-        textSpace.style.width = canvasSize.width+'px';
-        textSpace.style.height = canvasSize.height+'px';
-        textSpace.style.top = -canvasSize.y+'px';
-        textSpace.style.left = -canvasSize.x+'px';
-        textSpace.style.position = 'absolute';
-        textSpace.style.padding=paddingSize+'px';
+        textSpace.style.width = canvasSize.width + 'px';
+        textSpace.style.height = canvasSize.height + 'px';
+        // textSpace.style.top = -canvasSize.y + 'px';
+        // textSpace.style.left = -canvasSize.x + 'px';
+        // textSpace.style.position = 'absolute';
+        // textSpace.style.padding = paddingSize + 'px';
 
-        ctx.fillStyle = '#fff';
+        ctx.fillStyle = BACKGROUND_COLOR;
         ctx.fillRect(0,0,canvasSize.width, canvasSize.height);
 
         window.addEventListener('pointermove', pointerMoveEvent);
@@ -136,7 +106,7 @@
     function reset() {
         storeHistory();
         textSpace.innerHTML = '';
-        ctx.fillStyle = '#fff';
+        ctx.fillStyle = BACKGROUND_COLOR;
         ctx.fillRect(0,0, canvasSize.width, canvasSize.height);
         hasData = false;
     }
@@ -150,6 +120,7 @@
         if (hasDrawn) {
             canvasData = canvas.toDataURL('image/jpeg')
         }
+
         // NOT GOOD ENOUGH IF
         // THE MESSAGE FAIL NO POSSIBILITY
         // TO HANDLE
@@ -162,13 +133,35 @@
     }
 </script>
 
-<style>
-    .text-space {
-        border: 1px solid black;
-        cursor: default;
-    }
+<div class="editor-container">
+    <div class="tools-container">
+        <div class="tools">
+            <label>
+                <input type="radio" bind:group={size} name="size" value={1}/>
+                Small
+            </label>
+            <label>
+                <input type="radio" bind:group={size} name="size" value={2}/>
+                Medium
+            </label>
+            <label>
+                <input type="radio" bind:group={size} name="size" value={3}/>
+                Large
+            </label>
+            <label>
+                <input type="color" bind:value={color}/>
+                Color
+            </label>
+            <button on:click={popHistory}>undo</button>
+            <button on:click={reset}>reset</button>
+            <button on:click={send} disabled={!hasData}>send</button>
+        </div>
+    </div>
+    <div class="editor">
+        <div class="editor-text-space" contenteditable bind:this={textSpace}>
+        </div>
+        <canvas class="editor-canvas" bind:this={canvas}>
+        </canvas>
+    </div>
+</div>
 
-    .tools {
-        margin-top:1rem;
-    }
-</style>

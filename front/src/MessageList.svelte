@@ -1,21 +1,23 @@
 <script>
+    import { onMount, afterUpdate } from 'svelte';
     import MessageViewer from './MessageViewer.svelte';
-
     export let messages;
+    let messageListContainer;
+
+    function scrollBottom() {
+        messageListContainer.scrollTo(
+            0,
+            messageListContainer.scrollHeight
+        )
+    }
+
+    onMount(() => scrollBottom());
+    afterUpdate(() => scrollBottom());
+
 </script>
 
-<div>
-    <div class="container">
-        {#each messages as message}
-            <MessageViewer {...message}/>
-        {/each}
-    </div>
+<div class="message-container" bind:this={messageListContainer}>
+    {#each messages as message}
+        <MessageViewer {...message}/>
+    {/each}
 </div>
-
-
-<style>
-    .container {
-        max-height: 45vh;
-        overflow-x: scroll;
-    }
-</style>

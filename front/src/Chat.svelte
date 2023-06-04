@@ -1,11 +1,8 @@
-<main>
-    <div class="container">
-        <div>
-            <MessageList {messages}/>
-            <Editor on:send={send}/>
-        </div>
-    </div>
-</main>
+<div class="chat-container">
+    <MessageList {messages}/>
+    <Editor on:send={send}/>
+</div>
+
 <script>
     import { onMount } from 'svelte';
     import MessageList from './MessageList.svelte';
@@ -30,12 +27,3 @@
         chatSocket.send(JSON.stringify(e.detail));
     }
 </script>
-
-<style>
-    .container {
-        display: flex;
-        justify-content:center;
-        margin-top:10vh;
-        margin-bottom:10vh;
-    }
-</style>

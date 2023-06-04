@@ -1,0 +1,80 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --canvas-text-padding: 10px;
+    --color-background: #DDD8C4;
+    --color-1: #A3C9A8;
+    --color-2: #84B59F;
+    --color-3: #69A297;
+    --color-4: #50808E;
+    --message-width: 600px;
+    --message-height: 200px;
+    --app-margin: 5rem;
+}
+
+body {
+    background: var(--color-background);
+}
+
+.app-container {
+    display: flex;
+    justify-content: center;
+    margin-left: var(--app-margin);
+    margin-right: var(--app-margin);
+}
+
+.chat-container {
+    height: 95vh;
+    height: 95dvh;
+    border: 2px solid #69A297;
+    display: flex;
+    margin-top: var(--menu-height);
+    flex-direction: column;
+    justify-content: end;
+}
+
+.message-container {
+    height: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.editor {
+    position: relative;
+    width: var(--message-width);
+    height: var(--message-height);
+}
+
+.editor-text-space {
+    position: absolute;
+    top:0;
+    padding: var(--canvas-text-padding);
+    overflow: hidden;
+}
+
+.message-viewer {
+    position: relative;
+    width: var(--message-width);
+    height: var(--message-height);
+    overflow:hidden;
+    outline: 1px solid black;
+}
+
+.message-viewer-text-space {
+    position: absolute;
+    top:0;
+    padding: var(--canvas-text-padding);
+}
+
+.tools {
+    background: #A3C9A8;
+}
+
+/* A3C9A8 */
+/* 84B59F */
+/* 69A297 */
+/* 50808E */

@@ -12,7 +12,7 @@ class MessageParams(BaseModel):
     user_uuid: UUID
 
 
-def post_message(message_params: MessageParams) -> UUID:
+def post_message(message_params: MessageParams) -> Message:
     message_repository = MessageRepository()
     user_repository = UserRepository()
     user = user_repository.get_from_uuid(message_params.user_uuid)

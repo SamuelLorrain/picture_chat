@@ -1,5 +1,4 @@
 from fastapi import FastAPI, WebSocket
-from fastapi.responses import Response
 from fastapi.middleware.cors import CORSMiddleware
 from picture_chat.actions.get_all_messages import get_all_messages as get_all_messages_action
 from picture_chat.actions.post_message import post_message as post_message_action, MessageParams
