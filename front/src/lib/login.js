@@ -1,4 +1,10 @@
-export default () => {
-    const token = window.localStorage.getItem('token')
-    return JSON.parse(token);
+export const getTokenPayload = () => {
+    const token = getToken();
+    const parts = token.split('.');
+    const payload = atob(parts[1]);
+    return JSON.parse(payload);
+}
+
+export default function getToken() {
+    return window.localStorage.getItem('jwt');
 }

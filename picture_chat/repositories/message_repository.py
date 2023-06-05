@@ -22,10 +22,12 @@ class MessageRepository:
                    room.uuid as room_uuid,
                    room.name as room_name
             FROM message
-            JOIN user ON message.user_uuid = user_uuid
             JOIN room ON message.room_uuid = room.uuid
-            WHERE room.uuid = ?""", (str(uuid),))
+            JOIN user ON message.user_uuid = user.uuid
+            WHERE room.uuid = ?
+            ORDER BY datetime""", (str(uuid),))
         messages_data = cursor.fetchall()
+        print(len(messages_data))
         for message in messages_data:
             messages.append(
                 Message(
@@ -37,6 +39,7 @@ class MessageRepository:
                     room=Room(uuid=UUID(message[6]), name=message[7])
                 )
             )
+        connection.close()
         return messages
 
     def store_message(self, message: Message) -> None:
@@ -52,6 +55,7 @@ class MessageRepository:
             str(message.user.uuid),
             str(message.room.uuid)))
         connection.commit()
+        connection.close()
 
     def get_message_by_uuid(self, uuid: UUID) -> Optional[Message]:
         connection = sqlite3.connect(f"{os.path.dirname(__file__)}/../db.sqlite3")
@@ -69,33 +73,7 @@ class MessageRepository:
             JOIN room ON message.room_uuid = room.uuid
             WHERE message.uuid = ?""", (str(uuid),))
         message_data = cursor.fetchone()
-        if not message_data:
-            return None
-        return Message(
-            uuid=UUID(message_data[2]),
-            text=message_data[3],
-            image=message_data[4],
-            datetime=datetime.fromisoformat(message_data[5]),
-            user=User(uuid=UUID(message_data[0]), name=message_data[1]),
-            room=Room(uuid=UUID(message_data[6]), name=message_data[7]),
-        )
-
-    def get_message_by_room_uuid(self, uuid: UUID) -> Optional[Message]:
-        connection = sqlite3.connect(f"{os.path.dirname(__file__)}/../db.sqlite3")
-        cursor = connection.execute("""
-            SELECT user.uuid as user_uuid,
-                   user.name as user_name,
-                   message.uuid as uuid,
-                   text,
-                   image,
-                   datetime,
-                   room.uuid as room_uuid,
-                   room.name as room_name
-            FROM message
-            JOIN user ON message.user_uuid = user_uuid
-            JOIN room ON message.room_uuid = room.uuid
-            WHERE room.uuid = ?""", (str(uuid),))
-        message_data = cursor.fetchone()
+        connection.close()
         if not message_data:
             return None
         return Message(

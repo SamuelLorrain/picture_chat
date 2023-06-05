@@ -70,6 +70,12 @@ body {
     padding: var(--canvas-text-padding);
 }
 
+.message-viewer-username {
+    position: absolute;
+    top:0;
+    right: 0;
+}
+
 .tools {
     background: #A3C9A8;
 }

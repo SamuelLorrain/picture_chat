@@ -7,5 +7,8 @@ def message_to_dict(message: Message) -> dict:
         "text": message.text,
         "image": message.image.decode('ascii'),
         "datetime": str(message.datetime),
-        "user_uuid": str(message.user.uuid)
+        "user": {
+            "name": str(message.user.name),
+            "uuid": str(message.user.uuid)
+        }
     }

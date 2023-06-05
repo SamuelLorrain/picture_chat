@@ -1,19 +1,24 @@
 <script>
     import { Router, Route, Link} from 'svelte-navigator';
+    import PrivateRoute from './PrivateRoute.svelte';
+    import RedirectIfLoggedRoute from './RedirectIfLoggedRoute.svelte';
     import Room from './Room.svelte';
     import Chat from './Chat.svelte';
+    import Login from './Login.svelte';
+
+    const rootPath = "/";
 </script>
 
 <Router>
     <div class="app-container">
-        <Route path="/chat/:roomUUID">
+        <PrivateRoute path="/chat/:roomUUID" redirect={rootPath}>
             <Chat/>
-        </Route>
-        <Route path="/room">
+        </PrivateRoute>
+        <PrivateRoute path="/room" redirect={rootPath}>
             <Room/>
-        </Route>
-        <Route path="/">
-            <Room/>
-        </Route>
+        </PrivateRoute>
+        <RedirectIfLoggedRoute path={rootPath} redirect="/room">
+            <Login/>
+        </RedirectIfLoggedRoute>
     </div>
 </Router>

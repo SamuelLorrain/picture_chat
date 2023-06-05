@@ -21,6 +21,7 @@ class RoomRepository:
                     name=room[1],
                 )
             )
+        connection.close()
         return rooms
 
     def store_room(self, room: Room) -> None:
@@ -30,6 +31,7 @@ class RoomRepository:
             VALUES (?,?)
         """, (str(room.uuid), room.name))
         connection.commit()
+        connection.close()
 
     def get_room_by_uuid(self, uuid: UUID) -> Optional[Message]:
         connection = sqlite3.connect(f"{os.path.dirname(__file__)}/../db.sqlite3")
@@ -38,6 +40,7 @@ class RoomRepository:
             FROM room
             WHERE room.uuid = ?""", (str(uuid),))
         room_data = cursor.fetchone()
+        connection.close()
         if not room_data:
             return None
         return Room(

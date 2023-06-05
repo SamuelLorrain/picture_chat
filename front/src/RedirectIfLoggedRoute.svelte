@@ -1,4 +1,4 @@
-<Route path={path} redirect={redirect}>
+<Route path={path}>
     <slot/>
 </Route>
 
@@ -6,13 +6,12 @@
     import { useNavigate, Route } from 'svelte-navigator';
     import { onMount } from 'svelte';
     import getToken from './lib/login.js';
+    let navigate = useNavigate();
 
     export let path;
     export let redirect;
 
-    let navigate = useNavigate();
-
-    $: if(!getToken()) {
+    $: if(getToken()) {
         navigate(redirect);
     }
 </script>

@@ -1,4 +1,11 @@
 <div class="message-viewer" bind:this={messageViewer}>
+    <div class="message-viewer-username">
+    {#if user && user.name}
+        {user.name}
+    {:else}
+        user deleted
+    {/if}
+    </div>
     <div class="message-viewer-text-space" bind:this={textSpace}></div>
     <canvas bind:this={canvas}></canvas>
 </div>
@@ -8,7 +15,7 @@
 
     export let text;
     export let image;
-    export let user_uuid;
+    export let user;
     export let datetime;
     const canvasSize = {
         width: 600,

@@ -20,9 +20,8 @@ def post_message(message_params: MessageParams) -> Message:
     user_repository = UserRepository()
     user = user_repository.get_from_uuid(message_params.user_uuid)
     room = room_repository.get_room_by_uuid(message_params.room_uuid)
-    uuid = uuid4()
     message = Message(
-        uuid=uuid,
+        uuid=uuid4(),
         text=message_params.text,
         image=message_params.image,
         datetime=datetime.now(),
