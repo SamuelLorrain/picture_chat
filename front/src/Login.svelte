@@ -44,7 +44,7 @@
     function register(e) {
         registerIsLoading = true;
         e.preventDefault();
-        let new_user = fetch('http://localhost:8000/register', {
+        let new_user = fetch(`${import.meta.env.VITE_BACK_URL}/register`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -59,7 +59,7 @@
         })
         .then((data) => {
             registerIsLoading = false;
-            return fetch('http://localhost:8000/login', {
+            return fetch(`${import.meta.env.VITE_BACK_URL}/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -95,7 +95,7 @@
     function login(e) {
         loginIsLoading = true;
         e.preventDefault();
-        let token = fetch('http://localhost:8000/login', {
+        let token = fetch(`${import.meta.env.VITE_BACK_URL}/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

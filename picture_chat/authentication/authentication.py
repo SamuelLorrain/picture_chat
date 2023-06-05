@@ -4,9 +4,7 @@ from uuid import uuid4
 from typing import Optional
 from picture_chat.repositories.user_repository import UserRepository
 from picture_chat.entities.user import User
-
-
-secret_key = "TO CHANGE IN PRODUCTION"
+from picture_chat.config import Config
 
 
 def encrypt_password(password: str) -> bytes:
@@ -26,7 +24,7 @@ def login(username: str, password: str) -> Optional[str]:
             "username": username,
             "uuid": str(user.uuid)
         },
-        secret_key,
+        Config().secret_key,
         algorithm="HS256"
     )
 
@@ -45,7 +43,7 @@ def register(name: str, password: str) -> User:
 # TODO handle expirations etc.
 def authenticate(token: bytes) -> bool:
     try:
-        jwt.decode(token, secret_key, algorithms="HS256")
+        jwt.decode(token, Config().secret_key, algorithms="HS256")
         return True
     except jwt.exceptions.DecodeError as e:
         print(e)

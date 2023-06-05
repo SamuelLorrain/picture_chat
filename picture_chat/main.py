@@ -10,13 +10,12 @@ from picture_chat.actions.room_crud import create_room as create_room_action
 from picture_chat.authentication.authentication import register, login, authenticate
 import json
 from uuid import UUID
+from picture_chat.config import Config
 
 app = FastAPI()
-
 origins = [
-    'http://localhost:3000',
+    Config().front_url,
 ]
-
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,

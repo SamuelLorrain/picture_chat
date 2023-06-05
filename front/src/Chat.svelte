@@ -11,7 +11,7 @@
     import Editor from './Editor.svelte';
     const params = useParams();
 
-    const url =  `ws://localhost:8000/ws/${$params.roomUUID}`
+    const url =  `${import.meta.env.VITE_WEBSOCKET_URL}/ws/${$params.roomUUID}`
     const chatSocket = new WebSocket(url);
     let messages = [];
 
@@ -22,7 +22,7 @@
 
     onMount(async () => {
         const response = await fetch(
-          `http://localhost:8000/messages/${$params.roomUUID}`,
+          `${import.meta.env.VITE_BACK_URL}/messages/${$params.roomUUID}`,
           {
             headers: {
               'Authorization': `Bearer ${getToken()}`
