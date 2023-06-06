@@ -1,20 +1,27 @@
 <script>
-    import { Link } from 'svelte-navigator';
+    import { Link, useNavigate, useFocus } from 'svelte-navigator';
     import { onMount } from 'svelte';
-    import getToken from './lib/login';
+    import getToken, { logout } from './lib/login';
     let rooms = []
     let isLoading = false;
     $: canSend = !isLoading && newRoomName.length > 0;
     let newRoomName = ""
+    let navigate = useNavigate();
+    let registerFocus = useFocus();
 
     onMount(async () => {
-        const response = await fetch(`${import.meta.env.VITE_BACK_URL}/room`, {
-            headers: {
-              'Authorization': `Bearer ${getToken()}`
-            }
-        })
-        const data = await response.json();
-        rooms = [...data];
+        try {
+            const response = await fetch(`${import.meta.env.VITE_BACK_URL}/room`, {
+                headers: {
+                  'Authorization': `Bearer ${getToken()}`
+                }
+            })
+            const data = await response.json();
+            rooms = [...data];
+        } catch {
+            logout();
+            navigate('/');
+        }
     })
 
     function createRoom(e) {
@@ -43,6 +50,8 @@
         })
         .catch((e) => {
             isLoading = false;
+            logout();
+            navigate('/');
         })
     }
 </script>
@@ -66,7 +75,7 @@
     <hr/>
     <form>
         <label for="new_room">New room</label>
-        <input id="new_room" type="text" bind:value={newRoomName}/>
+        <input use:registerFocus id="new_room" type="text" bind:value={newRoomName}/>
         <button on:click={createRoom} disabled={!canSend}>Create Room</button>
     </form>
 </div>

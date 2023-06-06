@@ -7,7 +7,7 @@ from picture_chat.actions.post_message import post_message as post_message_actio
 from picture_chat.serializers.message_serializer import message_to_dict
 from picture_chat.actions.room_crud import get_all_rooms as get_all_rooms_action
 from picture_chat.actions.room_crud import create_room as create_room_action
-from picture_chat.authentication.authentication import register, login, authenticate
+from picture_chat.authentication.authentication import register, get_new_token, authenticate
 import json
 from uuid import UUID
 from picture_chat.config import Config
@@ -102,7 +102,7 @@ def create_new_user(user_params: UserParams):
 
 @app.post('/login')
 def login_user(user_params: UserParams):
-    token = login(user_params.name, user_params.password)
+    token = get_new_token(user_params.name, user_params.password)
     if token is None:
         return Response("Unable to authenticate", status_code=403)
     return {"jwt": token}

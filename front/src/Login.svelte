@@ -16,7 +16,7 @@
     {#if loginForm}
     <form>
         <label for="username">Username</label>
-        <input id="username" type="text" name="username" bind:value={username} class:invalid={loginError} on:input={_ => loginError = false}/>
+        <input use:registerFocus id="username" type="text" name="username" bind:value={username} class:invalid={loginError} on:input={_ => loginError = false}/>
         <label for="password">Password </label>
         <input id="password" type="password" name="password" bind:value={password} class:invalid={loginError} on:input={_ => loginError = false}/>
         <button on:click={login} disabled={!canLogin}>Login</button>
@@ -43,7 +43,14 @@
 </div>
 
 <script>
-    import { Link, Route, Router, useNavigate, useLocation } from 'svelte-navigator';
+    import {
+        Link,
+        Route,
+        Router,
+        useNavigate,
+        useLocation,
+        useFocus
+    } from 'svelte-navigator';
     import getToken from './lib/login.js'
 
     const MAIN_LINK = 'room/'
@@ -62,6 +69,7 @@
 
     const navigate = useNavigate();
     const location = useLocation();
+    const registerFocus = useFocus();
 
     function register(e) {
         registerIsLoading = true;

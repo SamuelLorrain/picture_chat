@@ -1,6 +1,7 @@
 <script>
     // TODO
     // STORE HasData/HasDrawn in historyState
+    import { useFocus } from 'svelte-navigator';
     import { onMount, createEventDispatcher, onDestroy } from 'svelte';
     import { getRandomColor, cloneResizeCanvas } from './lib/utils';
     import { EditorHistory } from './lib/editor.js';
@@ -30,6 +31,7 @@
     const dispatch = createEventDispatcher();
     const BACKGROUND_COLOR = '#fff';
     let ctx;
+    let registerFocus = useFocus();
 
     const pointerMoveEvent = function(e) {
         const canvasPosition = canvas.getBoundingClientRect();
@@ -180,7 +182,7 @@
             <input class="size size-small" type="radio" bind:group={size} name="size" value={1}/>
             <input class="size size-medium" type="radio" bind:group={size} name="size" value={2}/>
             <input class="size size-big" type="radio" bind:group={size} name="size" value={3}/>
-            <input class="color" type="color" bind:value={color}/>
+            <input use:registerFocus class="color" type="color" bind:value={color}/>
             <button class="reset" on:click={reset}>
                 <ResetArrow/>
             </button>
