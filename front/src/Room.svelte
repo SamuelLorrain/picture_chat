@@ -17,7 +17,8 @@
         rooms = [...data];
     })
 
-    function createRoom() {
+    function createRoom(e) {
+        e.preventDefault();
         isLoading = true;
         fetch(`${import.meta.env.VITE_BACK_URL}/room`, {
             method: 'POST',
@@ -46,20 +47,24 @@
     }
 </script>
 
-<div>
-    Rooms:
+<div class="card">
+    <header>
+        <h1>Rooms</h1>
+        <p class="subtitle">Choose or create a room</p>
+    </header>
     <div>
         {#each rooms as room}
-            <div>
-                <Link to={`/chat/${room.uuid}`}>{room.name}</Link>
-            </div>
+            <Link to={`/chat/${room.uuid}`}>
+                <div class="room-selection-box">
+                    {room.name}
+                </div>
+            </Link>
         {/each}
     </div>
-    <div>
-        <label>
-            New room name
-            <input type="text" bind:value={newRoomName}/>
-        </label>
+    <hr/>
+    <form>
+        <label>New room</label>
+        <input type="text" bind:value={newRoomName}/>
         <button on:click={createRoom} disabled={!canSend}>Create Room</button>
-    </div>
+    </form>
 </div>

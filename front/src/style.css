@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Jost&display=swap');
+
 *, *:before, *:after {
     margin: 0;
     padding: 0;
@@ -16,8 +18,119 @@
     --app-margin: 5rem;
 }
 
+.card {
+    margin-top: 1rem;
+    border: 5px solid var(--color-1);
+    border-radius: 10px;
+    padding: 10px;
+    background-color: #fff;
+    width: clamp(25vw, 300px, 100vw);
+    padding-bottom: 24px;
+}
+
+.card hr {
+    margin-top: 1rem;
+}
+
+.card header {
+    margin-bottom: 1.25rem;
+}
+
+.card .subtitle {
+    font-size: 1rem;
+    color: #555;
+}
+
+.card form {
+    margin: 1rem auto auto auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 80%;
+}
+
+.card button {
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: var(--color-1);
+    color: #000;
+    margin: 0;
+    font: inherit;
+    border: 1px solid #555;
+    border-radius: 5px;
+    display: grid;
+    place-content: center;
+    padding: 5px;
+}
+
+.card button:hover {
+    background-color: #4a726a;
+    color: white;
+    cursor: pointer;
+}
+
+.card button:active {
+    box-shadow: 1px 1px 10px 1px #777;
+}
+
+.card button:focus {
+  outline: 1px dashed currentColor;
+  outline-offset: 1px;
+}
+
+.card button:disabled {
+    background-color: #ccc;
+    color: #888;
+}
+
+.card button:disabled:hover {
+    color: #888;
+    cursor: auto;
+}
+
+.card .header-action {
+    display: flex;
+    justify-content: end;
+}
+
+.room-selection-box {
+    padding: 10px;
+    background-color: #fff;
+    border-bottom: 1px solid var(--color-3);
+}
+
+a:last-child .room-selection-box {
+    border-bottom: none;
+}
+
+.room-selection-box:hover {
+    background-color: #ddd;
+    cursor: pointer;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+a:focus {
+    outline: 2px solid var(--color-4);
+}
+
+a:active {
+    color: black;
+}
+
+a {
+    color: black;
+}
+
 body {
     background: var(--color-background);
+    font-family: 'Jost',arial,sans-serif;
 }
 
 .app-container {
@@ -28,9 +141,11 @@ body {
 }
 
 .chat-container {
+    border: 5px solid var(--color-1);
+    border-radius: 10px;
+    border-offset: 5px;
     height: 95vh;
     height: 95dvh;
-    border: 2px solid #69A297;
     display: flex;
     margin-top: var(--menu-height);
     flex-direction: column;
@@ -76,11 +191,33 @@ body {
     padding: var(--canvas-text-padding);
 }
 
-.message-viewer-username {
+.message-viewer-header {
     position: absolute;
     top:0;
     right: 0;
+    display: flex;
+    flex-direction: column;
 }
+
+.message-viewer-header .username {
+    background: var(--color-1);
+    padding: 2.5px 10px;
+    border-bottom-left-radius: 10px;
+    font-size: 0.75rem;
+    min-width: 5rem;
+    max-width: 7.5rem;
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow: ellipsis;
+}
+
+.message-viewer-header .datetime {
+    font-size: 0.725rem;
+    margin-left: auto;
+    margin-right: 5px;
+}
+
+
 
 .tools {
     background: #A3C9A8;
@@ -118,6 +255,7 @@ body {
 .tools input[type="radio"]:hover,
 .tools button:hover {
     background-color: #4a726a;
+    cursor: pointer;
 }
 
 .tools input[type="radio"]:checked {
@@ -151,6 +289,7 @@ tools button:focus {
 
 .tools button:disabled:hover {
     background-color: grey;
+    cursor: auto;
 }
 
 .tools button:disabled:active {

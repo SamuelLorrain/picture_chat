@@ -1,26 +1,30 @@
-<div>
+<div class="card">
+    <div class="header-action">
+        <button on:click={_ => loginForm = !loginForm}>
+            {#if loginForm}
+            Register instead
+            {:else}
+            Login
+            {/if}
+        </button>
+    </div>
+    {#if loginForm}
     <form>
-        <label>
-            Username
-            <input type="text" name="username" bind:value={username}/>
-        </label>
-        <label>
-            Password
-            <input type="password" name="password" bind:value={password}/>
-        </label>
+        <label>Username</label>
+        <input type="text" name="username" bind:value={username}/>
+        <label>Password </label>
+        <input type="password" name="password" bind:value={password}/>
         <button on:click={login} disabled={!canLogin}>Login</button>
     </form>
+    {:else}
     <form>
-        <label>
-            Username
-            <input type="text" name="username" bind:value={register_username}/>
-        </label>
-        <label>
-            Password
-            <input type="password" name="password" bind:value={register_password}/>
-        </label>
+        <label>Username</label>
+        <input type="text" name="username" bind:value={register_username}/>
+        <label>Password</label>
+        <input type="password" name="password" bind:value={register_password}/>
         <button on:click={register} disabled={!canRegister}>Register</button>
     </form>
+    {/if}
 </div>
 
 <script>
@@ -30,6 +34,7 @@
     const MAIN_LINK = 'room/'
     let username = "";
     let password = "";
+    let loginForm = true;
     let loginIsLoading = false;
     $: canLogin = username.length > 0 && password.length > 0 && !loginIsLoading;
 

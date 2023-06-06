@@ -2,6 +2,7 @@
     // TODO
     // STORE HasData/HasDrawn in historyState
     import { onMount, createEventDispatcher, onDestroy } from 'svelte';
+    import { getRandomColor } from './lib/utils';
     import { EditorHistory } from './lib/editor.js';
     import ResetArrow from './icons/ResetArrow.svelte';
     import LeftArrow from './icons/LeftArrow.svelte';
@@ -9,7 +10,7 @@
 
     let canvas;
     let textSpace;
-    let color;
+    let color = getRandomColor();
     let size = 2;
     let drawing = false;
     let hasData = false;
@@ -24,7 +25,6 @@
     }
     const editorHistory = new EditorHistory();
     const dispatch = createEventDispatcher();
-    const DEFAULT_COLOR = '#000'; // TODO Random default color
     const BACKGROUND_COLOR = '#fff';
     let ctx;
 
@@ -33,7 +33,7 @@
         cursor.x = e.clientX - canvasPosition.x - 5;
         cursor.y = e.clientY - canvasPosition.y - 5;
         if (drawing) {
-            ctx.fillStyle = color ?? DEFAULT_COLOR;
+            ctx.fillStyle = color ?? '#000';
             ctx.fillRect(cursor.x, cursor.y, size*10, size*10);
             hasData = true;
         }
