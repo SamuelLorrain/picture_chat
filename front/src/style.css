@@ -14,8 +14,6 @@
     --color-3: #69A297;
     --color-4: #50808E;
     --color-5: #e18787;
-    --message-width: 600px;
-    --message-height: 200px;
     --app-margin: 5rem;
 }
 
@@ -25,7 +23,7 @@
     border-radius: 10px;
     padding: 10px;
     background-color: #fff;
-    width: clamp(25vw, 300px, 100vw);
+    width: max(25vw, 500px);
     padding-bottom: 24px;
 }
 
@@ -135,6 +133,7 @@ a {
 body {
     background: var(--color-background);
     font-family: 'Jost',arial,sans-serif;
+    overflow: hidden;
 }
 
 .app-container {
@@ -142,6 +141,14 @@ body {
     justify-content: center;
     margin-left: var(--app-margin);
     margin-right: var(--app-margin);
+    overflow: hidden;
+}
+
+@media(max-width: 960px) {
+    .app-container {
+        margin-left: 0;
+        margin-right: 0;
+    }
 }
 
 .chat-container {
@@ -164,9 +171,11 @@ body {
 
 .editor {
     position: relative;
-    width: var(--message-width);
-    height: var(--message-height);
     border-top: 2px solid var(--color-1);
+}
+
+.editor .editor-canvas {
+    diplay: block;
 }
 
 .editor-text-space {
@@ -184,8 +193,6 @@ body {
 
 .message-viewer {
     position: relative;
-    width: var(--message-width);
-    height: var(--message-height);
     overflow:hidden;
     outline: 1px solid black;
 }
@@ -222,8 +229,6 @@ body {
     margin-left: auto;
     margin-right: 5px;
 }
-
-
 
 .tools {
     background: #A3C9A8;
@@ -318,6 +323,12 @@ menu {
     height: 50px;
 }
 
+@media(max-width: 960px) {
+    menu {
+        padding: 5px 10px;
+    }
+}
+
 .secondary-button {
     background: none;
 }
@@ -357,4 +368,15 @@ input[type="password"].invalid {
     background-color: var(--color-5);
     display: flex;
     justify-content: center;
+}
+
+.rooms-list {
+    max-height: 50vh;
+    max-height: 50dvh;
+    overflow: hidden;
+    overflow-y: scroll;
+}
+
+canvas, .message-viewer-img {
+    display: block;
 }

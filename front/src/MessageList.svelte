@@ -13,7 +13,6 @@
 
     onMount(() => scrollBottom());
     afterUpdate(() => scrollBottom());
-
 </script>
 
 <div class="message-container" bind:this={messageListContainer}>

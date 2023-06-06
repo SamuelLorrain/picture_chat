@@ -27,7 +27,6 @@ class MessageRepository:
             WHERE room.uuid = ?
             ORDER BY datetime""", (str(uuid),))
         messages_data = cursor.fetchall()
-        print(len(messages_data))
         for message in messages_data:
             messages.append(
                 Message(

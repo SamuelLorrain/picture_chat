@@ -2,7 +2,7 @@
     // TODO
     // STORE HasData/HasDrawn in historyState
     import { onMount, createEventDispatcher, onDestroy } from 'svelte';
-    import { getRandomColor } from './lib/utils';
+    import { getRandomColor, cloneResizeCanvas } from './lib/utils';
     import { EditorHistory } from './lib/editor.js';
     import ResetArrow from './icons/ResetArrow.svelte';
     import LeftArrow from './icons/LeftArrow.svelte';
@@ -15,9 +15,12 @@
     let drawing = false;
     let hasData = false;
     let hasDrawn = false;
+    let canvasResized = false;
+    const CANVAS_DEFAULT_WIDTH = 600;
+    const CANVAS_DEFAULT_HEIGHT = 200;
     const canvasSize = {
-        width: 600,
-        height: 200
+        width: CANVAS_DEFAULT_WIDTH,
+        height: CANVAS_DEFAULT_HEIGHT
     }
     const cursor = {
         x: null,
@@ -40,17 +43,17 @@
     };
 
     const pointerUpEvent = function(e) {
-            drawing = false;
-            canvas.style.cursor = "default";
-            textSpace.style.cursor = "default";
+        drawing = false;
+        canvas.style.cursor = "default";
+        textSpace.style.cursor = "default";
     };
 
     const pointerDownEvent = function(e) {
-            storeHistory();
-            drawing = true;
-            hasDrawn = true;
-            canvas.style.cursor = "crosshair";
-            textSpace.style.cursor = "crosshair";
+        storeHistory();
+        drawing = true;
+        hasDrawn = true;
+        canvas.style.cursor = "crosshair";
+        textSpace.style.cursor = "crosshair";
     };
 
     const inputEvent = function(e) {
@@ -61,9 +64,12 @@
     }
 
     onMount(() => {
+        if (window.innerWidth < canvasSize.width) {
+            canvasSize.width = window.innerWidth - 2;
+            canvasSize.height = (window.innerWidth / 3.0);
+            canvasResized = true;
+        }
         ctx = canvas.getContext('2d');
-        const canvasPosition = canvas.getBoundingClientRect();
-
         canvas.width = canvasSize.width;
         canvas.height = canvasSize.height;
         textSpace.style.width = canvasSize.width + 'px';
@@ -87,19 +93,46 @@
     });
 
     function storeHistory() {
-        editorHistory.append({
-            text: textSpace.innerHTML,
-            canvas: ctx.getImageData(
-                0,
-                0,
-                canvasSize.width,
-                canvasSize.height
-            ),
-        });
+        if (!canvasResized) {
+            editorHistory.append({
+                text: textSpace.innerHTML,
+                canvas: ctx.getImageData(
+                    0,
+                    0,
+                    CANVAS_DEFAULT_WIDTH,
+                    CANVAS_DEFAULT_HEIGHT
+                ),
+            });
+        } else {
+            const resizedCanvas = cloneResizeCanvas(
+                canvas,
+                CANVAS_DEFAULT_WIDTH,
+                CANVAS_DEFAULT_HEIGHT
+            )
+            const resizedCtx = resizedCanvas.getContext('2d');
+            editorHistory.append({
+                text: textSpace.innerHTML,
+                canvas: resizedCtx.getImageData(
+                    0,
+                    0,
+                    CANVAS_DEFAULT_WIDTH,
+                    CANVAS_DEFAULT_HEIGHT
+                ),
+            });
+        }
     }
 
     function popHistory() {
-        editorHistory.apply(ctx, textSpace);
+        if (!canvasResized) {
+            editorHistory.apply(ctx, textSpace);
+        } else {
+            editorHistory.applyResized(
+                ctx,
+                textSpace,
+                canvasSize.width,
+                canvasSize.height
+            )
+        }
     }
 
     function reset() {
@@ -117,9 +150,13 @@
 
         let canvasData = null;
         if (hasDrawn) {
-            canvasData = canvas.toDataURL('image/jpeg')
+            if (!canvasResized) {
+                canvasData = canvas.toDataURL('image/jpeg')
+            } else {
+                canvasData = cloneResizeCanvas(canvas, 600, 200)
+                    .toDataURL('image/jpeg');
+            }
         }
-
         // NOT GOOD ENOUGH IF
         // THE MESSAGE FAIL NO POSSIBILITY
         // TO HANDLE

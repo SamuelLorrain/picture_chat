@@ -54,7 +54,7 @@
             <p class="subtitle">Choose or create a room</p>
         </div>
     </header>
-    <div>
+    <div class="rooms-list">
         {#each rooms as room}
             <Link to={`/chat/${room.uuid}`}>
                 <div class="room-selection-box">
