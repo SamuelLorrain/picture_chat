@@ -49,8 +49,10 @@
 
 <div class="card">
     <header>
-        <h1>Rooms</h1>
-        <p class="subtitle">Choose or create a room</p>
+        <div>
+            <h1>Rooms</h1>
+            <p class="subtitle">Choose or create a room</p>
+        </div>
     </header>
     <div>
         {#each rooms as room}

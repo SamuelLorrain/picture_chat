@@ -5,11 +5,13 @@
     import Room from './Room.svelte';
     import Chat from './Chat.svelte';
     import Login from './Login.svelte';
+    import Menubar from './Menubar.svelte'
 
     const rootPath = "/";
 </script>
 
 <Router>
+    <Menubar></Menubar>
     <div class="app-container">
         <PrivateRoute path="/chat/:roomUUID" redirect={rootPath}>
             <Chat/>

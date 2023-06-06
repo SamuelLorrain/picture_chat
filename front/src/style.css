@@ -34,6 +34,9 @@
 
 .card header {
     margin-bottom: 1.25rem;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
 }
 
 .card .subtitle {
@@ -49,7 +52,7 @@
     width: 80%;
 }
 
-.card button {
+button {
     -webkit-appearance: none;
     appearance: none;
     background-color: var(--color-1);
@@ -63,34 +66,34 @@
     padding: 5px;
 }
 
-.card button:hover {
+button:hover {
     background-color: #4a726a;
     color: white;
     cursor: pointer;
 }
 
-.card button:active {
+button:active {
     box-shadow: 1px 1px 10px 1px #777;
 }
 
-.card button:focus {
-  outline: 1px dashed currentColor;
+button:focus {
+  outline: 1px solid var(--color-1);
   outline-offset: 1px;
 }
 
-.card button:disabled {
+button:disabled {
     background-color: #ccc;
     color: #888;
 }
 
-.card button:disabled:hover {
+button:disabled:hover {
     color: #888;
     cursor: auto;
 }
 
 .card .header-action {
     display: flex;
-    justify-content: end;
+    justify-content: start;
 }
 
 .room-selection-box {
@@ -144,8 +147,8 @@ body {
     border: 5px solid var(--color-1);
     border-radius: 10px;
     border-offset: 5px;
-    height: 95vh;
-    height: 95dvh;
+    height: 90vh;
+    height: 90dvh;
     display: flex;
     margin-top: var(--menu-height);
     flex-direction: column;
@@ -173,8 +176,9 @@ body {
 }
 
 .editor-text-space:focus {
-    outline: 3px solid var(--color-4);
-    box-shadow: 1px 1px 10px 1px var(--color-4);
+    outline: 1px solid var(--color-1);
+    outline-offset: 1px;
+    box-shadow: 1px 1px 10px 1px var(--color-1);
 }
 
 .message-viewer {
@@ -201,7 +205,7 @@ body {
 
 .message-viewer-header .username {
     background: var(--color-1);
-    padding: 2.5px 10px;
+    padding: 2.5px 15px;
     border-bottom-left-radius: 10px;
     font-size: 0.75rem;
     min-width: 5rem;
@@ -209,6 +213,7 @@ body {
     overflow:hidden;
     white-space:nowrap;
     text-overflow: ellipsis;
+    margin: auto;
 }
 
 .message-viewer-header .datetime {
@@ -299,4 +304,42 @@ tools button:focus {
 .tools .color {
     width: 2.5em;
     height: 2.5em;
+}
+
+menu {
+    padding: 5px 20vw;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid black;
+    margin-bottom: 5px;
+    height: 50px;
+}
+
+.secondary-button {
+    background: none;
+}
+
+.return-button {
+    margin-right: auto;
+}
+
+form button {
+    margin-top: 10px;
+}
+
+
+input[type="text"],
+input[type="password"] {
+    padding: 2.5px 10px;
+    border-radius: 5px;
+    border: 1px solid black;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+    outline: 1px solid var(--color-1);
+    outline-offset: 1px;
+    box-shadow: 1px 1px 10px 1px var(--color-1);
 }

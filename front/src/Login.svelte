@@ -1,13 +1,18 @@
 <div class="card">
-    <div class="header-action">
-        <button on:click={_ => loginForm = !loginForm}>
+    <header>
+        {#if loginForm}
+            <h1>Login to your account</h1>
+        {:else}
+            <h1>Register a new account</h1>
+        {/if}
+        <button class="secondary-button" on:click={_ => loginForm = !loginForm}>
             {#if loginForm}
-            Register instead
+                Register instead
             {:else}
-            Login
+                Login
             {/if}
         </button>
-    </div>
+    </header>
     {#if loginForm}
     <form>
         <label>Username</label>
