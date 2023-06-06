@@ -3,6 +3,9 @@
     // STORE HasData/HasDrawn in historyState
     import { onMount, createEventDispatcher, onDestroy } from 'svelte';
     import { EditorHistory } from './lib/editor.js';
+    import ResetArrow from './icons/ResetArrow.svelte';
+    import LeftArrow from './icons/LeftArrow.svelte';
+    import RightArrow from './icons/RightArrow.svelte';
 
     let canvas;
     let textSpace;
@@ -21,7 +24,7 @@
     }
     const editorHistory = new EditorHistory();
     const dispatch = createEventDispatcher();
-    const DEFAULT_COLOR = '#000';
+    const DEFAULT_COLOR = '#000'; // TODO Random default color
     const BACKGROUND_COLOR = '#fff';
     let ctx;
 
@@ -129,34 +132,28 @@
 </script>
 
 <div class="editor-container">
-    <div class="tools-container">
-        <div class="tools">
-            <label>
-                <input type="radio" bind:group={size} name="size" value={1}/>
-                Small
-            </label>
-            <label>
-                <input type="radio" bind:group={size} name="size" value={2}/>
-                Medium
-            </label>
-            <label>
-                <input type="radio" bind:group={size} name="size" value={3}/>
-                Large
-            </label>
-            <label>
-                <input type="color" bind:value={color}/>
-                Color
-            </label>
-            <button on:click={popHistory}>undo</button>
-            <button on:click={reset}>reset</button>
-            <button on:click={send} disabled={!hasData}>send</button>
-        </div>
-    </div>
     <div class="editor">
         <div class="editor-text-space" contenteditable bind:this={textSpace}>
         </div>
         <canvas class="editor-canvas" bind:this={canvas}>
         </canvas>
+    </div>
+    <div class="tools-container">
+        <div class="tools">
+            <input class="size size-small" type="radio" bind:group={size} name="size" value={1}/>
+            <input class="size size-medium" type="radio" bind:group={size} name="size" value={2}/>
+            <input class="size size-big" type="radio" bind:group={size} name="size" value={3}/>
+            <input class="color" type="color" bind:value={color}/>
+            <button class="reset" on:click={reset}>
+                <ResetArrow/>
+            </button>
+            <button class="undo" on:click={popHistory}>
+                <LeftArrow/>
+            </button>
+            <button class="send" on:click={send} disabled={!hasData}>
+                <RightArrow/>
+            </button>
+        </div>
     </div>
 </div>
 

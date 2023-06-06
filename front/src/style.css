@@ -1,4 +1,4 @@
-* {
+*, *:before, *:after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -47,6 +47,7 @@ body {
     position: relative;
     width: var(--message-width);
     height: var(--message-height);
+    border-top: 2px solid var(--color-1);
 }
 
 .editor-text-space {
@@ -54,6 +55,11 @@ body {
     top:0;
     padding: var(--canvas-text-padding);
     overflow: hidden;
+}
+
+.editor-text-space:focus {
+    outline: 3px solid var(--color-4);
+    box-shadow: 1px 1px 10px 1px var(--color-4);
 }
 
 .message-viewer {
@@ -78,9 +84,80 @@ body {
 
 .tools {
     background: #A3C9A8;
+    display: flex;
+    justify-content:space-around;
+    align-items: center;
+    flex-basis: 1 1 auto;
+    padding: 10px 24px;
 }
 
-/* A3C9A8 */
-/* 84B59F */
-/* 69A297 */
-/* 50808E */
+.tools input[type="radio"],
+.tools button {
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: #69A297;
+    margin: 0;
+    font: inherit;
+    width: 1.75em;
+    height: 1.75em;
+    border: 1px solid #69A297;
+    border-radius: 50%;
+    display: grid;
+    place-content: center;
+}
+
+.tools input[type="radio"]::before {
+    content: "";
+    display: block;
+    width: 0.65em;
+    height: 0.65em;
+    border-radius: 50%;
+    background-color: #000;
+}
+
+.tools input[type="radio"]:hover,
+.tools button:hover {
+    background-color: #4a726a;
+}
+
+.tools input[type="radio"]:checked {
+    background-color: #fff;
+}
+
+.tools input[type="radio"]:active,
+.tools button:active {
+    box-shadow: 1px 1px 10px 1px #777;
+}
+
+.tools input[type="radio"]:focus,
+tools button:focus {
+  outline: 1px solid currentColor;
+  outline-offset: 1px;
+}
+
+.tools input[type="radio"].size.size-medium::before {
+    width: 1em;
+    height: 1em;
+}
+
+.tools input[type="radio"].size.size-big::before {
+    width: 1.50em;
+    height: 1.50em;
+}
+
+.tools button:disabled {
+    background-color: grey;
+}
+
+.tools button:disabled:hover {
+    background-color: grey;
+}
+
+.tools button:disabled:active {
+    box-shadow: none;
+}
+
+.tools .color {
+    width: 2.5em;
+    height: 2.5em;
+}
