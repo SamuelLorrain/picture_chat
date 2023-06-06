@@ -13,6 +13,7 @@
     --color-2: #84B59F;
     --color-3: #69A297;
     --color-4: #50808E;
+    --color-5: #e18787;
     --message-width: 600px;
     --message-height: 200px;
     --app-margin: 5rem;
@@ -342,4 +343,18 @@ input[type="password"]:focus {
     outline: 1px solid var(--color-1);
     outline-offset: 1px;
     box-shadow: 1px 1px 10px 1px var(--color-1);
+}
+
+input[type="text"].invalid,
+input[type="password"].invalid {
+    background-color: var(--color-5);
+    box-shadow: 1px 1px 10px 1px var(--color-5);
+}
+
+.error {
+    margin-top: 10px;
+    border: 1px dashed black;
+    background-color: var(--color-5);
+    display: flex;
+    justify-content: center;
 }

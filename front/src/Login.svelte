@@ -5,7 +5,7 @@
         {:else}
             <h1>Register a new account</h1>
         {/if}
-        <button class="secondary-button" on:click={_ => loginForm = !loginForm}>
+        <button class="secondary-button" on:click={changeForm}>
             {#if loginForm}
                 Register instead
             {:else}
@@ -15,20 +15,30 @@
     </header>
     {#if loginForm}
     <form>
-        <label>Username</label>
-        <input type="text" name="username" bind:value={username}/>
-        <label>Password </label>
-        <input type="password" name="password" bind:value={password}/>
+        <label for="username">Username</label>
+        <input id="username" type="text" name="username" bind:value={username} class:invalid={loginError} on:input={_ => loginError = false}/>
+        <label for="password">Password </label>
+        <input id="password" type="password" name="password" bind:value={password} class:invalid={loginError} on:input={_ => loginError = false}/>
         <button on:click={login} disabled={!canLogin}>Login</button>
     </form>
     {:else}
     <form>
-        <label>Username</label>
-        <input type="text" name="username" bind:value={register_username}/>
-        <label>Password</label>
-        <input type="password" name="password" bind:value={register_password}/>
+        <label for="register_username">Username</label>
+        <input id="register_username" type="text" name="username" bind:value={registerUsername} class:invalid={registerError} on:input={_ => registerError = false}/>
+        <label for="register_password">Password</label>
+        <input for="register_password" type="password" name="password" bind:value={registerPassword} class:invalid={registerError} on:input={_ => registerError = false}/>
         <button on:click={register} disabled={!canRegister}>Register</button>
     </form>
+    {/if}
+    {#if loginError}
+    <div class="error">
+        Unable to login, please enter good credentials or try again later.
+    </div>
+    {/if}
+    {#if registerError}
+    <div class="error">
+        Unable to register, please enter others credentials or try again later.
+    </div>
     {/if}
 </div>
 
@@ -41,12 +51,14 @@
     let password = "";
     let loginForm = true;
     let loginIsLoading = false;
-    $: canLogin = username.length > 0 && password.length > 0 && !loginIsLoading;
+    let loginError = false;
+    $: canLogin = username.length > 0 && password.length > 0 && !loginIsLoading && !loginError;
 
-    let register_username = "";
-    let register_password = "";
+    let registerUsername = "";
+    let registerPassword = "";
     let registerIsLoading = false;
-    $: canRegister = register_username.length > 0 && register_password.length > 0 && !registerIsLoading;
+    let registerError = false;
+    $: canRegister = registerUsername.length > 0 && registerPassword.length > 0 && !registerIsLoading && !registerError;
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -60,8 +72,8 @@
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                name: register_username,
-                password: register_password
+                name: registerUsername,
+                password: registerPassword
             }),
         })
         .then((res) => {
@@ -75,8 +87,8 @@
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    name: register_username,
-                    password: register_password
+                    name: registerUsername,
+                    password: registerPassword
                 }),
             })
         })
@@ -92,13 +104,14 @@
                 x.jwt
             );
             registerIsLoading = false;
-            register_username = "";
-            register_password = "";
+            registerUsername = "";
+            registerPassword = "";
             navigate(MAIN_LINK);
         })
         .catch(x => {
             console.error(x);
             registerIsLoading = false;
+            registerError = true;
         })
     }
 
@@ -134,6 +147,17 @@
         .catch(x => {
             console.error(x);
             loginIsLoading = false;
+            loginError = true;
         })
+    }
+
+    function changeForm() {
+        loginError = false;
+        registerError = false;
+        username = "";
+        password = "";
+        registerUsername = "";
+        registerPassword = "";
+        loginForm = !loginForm;
     }
 </script>

@@ -65,8 +65,8 @@
     </div>
     <hr/>
     <form>
-        <label>New room</label>
-        <input type="text" bind:value={newRoomName}/>
+        <label for="new_room">New room</label>
+        <input id="new_room" type="text" bind:value={newRoomName}/>
         <button on:click={createRoom} disabled={!canSend}>Create Room</button>
     </form>
 </div>

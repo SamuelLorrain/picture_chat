@@ -22,6 +22,8 @@
     export let image;
     export let user;
     export let datetime;
+    export let uuid;
+    export let room;
     const canvasSize = {
         width: 600,
         height: 200
