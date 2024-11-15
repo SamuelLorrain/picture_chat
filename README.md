@@ -50,7 +50,7 @@ cd ..
 sh ./run.sh
 ```
 
-you can then access to the application here: [localhost:3000](localhost:3000)
+you can then access to the application here: [http://localhost:3000](http://localhost:3000)
 
 For a prodution deployement you may change what's inside `run.sh`
 
