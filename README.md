@@ -2,6 +2,8 @@
 
 A chat from the old days.
 
+![demo](demo.gif)
+
 ## Installation
 
 ### Database
