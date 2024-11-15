@@ -12,3 +12,4 @@ class Config(object):
         load_dotenv()
         self.secret_key = os.getenv('JWT_SECRET')
         self.front_url = os.getenv('FRONT_URL')
+        self.database_connection_string = os.getenv("DATABASE_CONNECTION_STRING")

@@ -23,7 +23,7 @@ def post_message(message_params: MessageParams) -> Message:
     message = Message(
         uuid=uuid4(),
         text=message_params.text,
-        image=message_params.image,
+        image=message_params.image.decode('utf8'),
         datetime=datetime.now(),
         user=user,
         room=room

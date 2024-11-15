@@ -13,7 +13,7 @@ def encrypt_password(password: str) -> bytes:
     password_bytes = password.encode('utf-8')
     salt = bcrypt.gensalt()
     hash = bcrypt.hashpw(password_bytes, salt)
-    return hash
+    return hash.decode('utf-8')
 
 
 def get_expiration_date() -> str:
